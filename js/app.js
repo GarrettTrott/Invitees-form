@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
     appendToLI("label", "textContent", "Confirmed").appendChild(
       createElement("input", "type", "checkbox")
     );
-    appendToLI("button", "textContent", "Edit");
-    appendToLI("button", "textContent", "Remove");
+    appendToLI("button", "textContent", "edit");
+    appendToLI("button", "textContent", "remove");
     return li;
   }
 
@@ -82,24 +82,32 @@ document.addEventListener("DOMContentLoaded", () => {
       const button = e.target;
       const li = e.target.parentNode;
       const ul = li.parentNode;
-      if (button.textContent === "Remove") {
-        ul.removeChild(li);
-      } else if (button.textContent === "Edit") {
-        const span = li.firstElementChild;
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = span.textContent;
-        li.insertBefore(input, span);
-        li.removeChild(span);
-        button.textContent = "Save";
-      } else if (button.textContent === "Save") {
-        const input = li.firstElementChild;
-        const span = document.createElement("span");
-        span.textContent = input.value;
-        li.insertBefore(span, input);
-        li.removeChild(input);
-        button.textContent = "Edit";
-      }
+      const action = button.textContent;
+      const nameActions = {
+        remove: () => {
+          ul.removeChild(li);
+        },
+        edit: () => {
+          const span = li.firstElementChild;
+          const input = document.createElement("input");
+          input.type = "text";
+          input.value = span.textContent;
+          li.insertBefore(input, span);
+          li.removeChild(span);
+          button.textContent = "save";
+        },
+        save: () => {
+          const input = li.firstElementChild;
+          const span = document.createElement("span");
+          span.textContent = input.value;
+          li.insertBefore(span, input);
+          li.removeChild(input);
+          button.textContent = "edit";
+        }
+      };
+
+      //select and run action on buttons name
+      nameActions[action]();
     }
   });
 });
