@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function createElement(elementName, property, value) {
       const element = document.createElement(elementName);
       element[property] = value;
+      return element;
     }
 
     function appendToLI(elementName, property, value) {
